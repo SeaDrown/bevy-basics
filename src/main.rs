@@ -15,9 +15,11 @@ pub struct HelloPlugin;
 
 impl Plugin for HelloPlugin {
     fn build(&self, app: &mut App) {
+        // resources are global data, useful for things like config, score tracking, etc
         // adding the greet timer resource to the app, setting it to 2 seconds long and repeating
         app.insert_resource(GreetTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
 
+        // systems are functions that iterate over entities
         app.add_systems(Startup, add_people); // registering startup systems
         app.add_systems(Update,(greet_people, update_people).chain()); // registering update systems (every frame?)
     }
@@ -35,9 +37,9 @@ fn main() {
 
 // spawning new entities, with person component and name component
 fn add_people(mut commands: Commands) {
-    commands.spawn((Person, Name("Superman".to_string())));
-    commands.spawn((Person, Name("Madison A".to_string())));
-    commands.spawn((Person, Name("Elliot B".to_string())));
+    commands.spawn((Person, Name("Superman".to_string()) ) );
+    commands.spawn((Person, Name("Madison A".to_string())) );
+    commands.spawn((Person, Name("Elliot B".to_string()) ) );
 }
 
 // take in a query requesting entities' name component, if they also have the person component
